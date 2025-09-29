@@ -6,15 +6,15 @@ if (!sessionStorage.getItem("sessionId")) {
 
 const sessionId = sessionStorage.getItem("sessionId");
 
-chrome.runtime.sendMessage({
-  v: SCHEMA_VERSION,
-  sid: sessionId,
-  ts: Date.now(),
-  type: "page_view",
-  page: { url: location.href, title: document.title },
-});
-
 document.addEventListener("DOMContentLoaded", () => {
+  chrome.runtime.sendMessage({
+    v: SCHEMA_VERSION,
+    sid: sessionId,
+    ts: Date.now(),
+    type: "page_view",
+    page: { url: location.href, title: document.title },
+  });
+
   document.addEventListener("click", (event) => {
     chrome.runtime.sendMessage({
       v: SCHEMA_VERSION,
