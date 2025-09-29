@@ -1,16 +1,7 @@
 import { addEvent } from "./database.js";
 
-const SCHEMA_VERSION = 1;
-
-if (!sessionStorage.getItem("sessionId")) {
-  sessionStorage.setItem("sessionId", crypto.randomUUID());
-}
-
-const sessionId = sessionStorage.getItem("sessionId");
-
 chrome.runtime.onMessage.addListener((message) => {
-  const event = { v: SCHEMA_VERSION, sid: sessionId, ...message };
-  addEvent(event).then(() => {
-    console.log(event);
+  addEvent(message).then(() => {
+    console.log(message);
   });
 });
