@@ -1,4 +1,4 @@
-import { addEvent } from "./database";
+import { addEvent } from "./database.js";
 
 const SCHEMA_VERSION = 1;
 
