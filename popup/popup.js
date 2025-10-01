@@ -1,4 +1,4 @@
-import { getAllEvents } from "../database.js";
+import { getAllEvents, clearAllEvents } from "../database.js";
 
 document.getElementById("download-json").addEventListener("click", async () => {
   try {
@@ -16,3 +16,14 @@ document.getElementById("download-json").addEventListener("click", async () => {
     console.error(error);
   }
 });
+
+document
+  .getElementById("delete-all-data")
+  .addEventListener("click", async () => {
+    try {
+      await clearAllEvents();
+      alert("All data deleted successfully.");
+    } catch (error) {
+      console.error(error);
+    }
+  });
