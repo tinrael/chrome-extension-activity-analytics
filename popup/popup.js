@@ -27,3 +27,40 @@ document
       console.error(error);
     }
   });
+
+document.getElementById("download-csv").addEventListener("click", async () => {
+  try {
+    const events = await getAllEvents();
+    const blob = new Blob([eventsToCSV(events)], {
+      type: "text/csv",
+    });
+    const objectURL = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = objectURL;
+    a.download = `events.csv`;
+    a.click();
+    URL.revokeObjectURL(objectURL);
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+function eventsToCSV(events) {
+  const set = new Set();
+  events.forEach((event) => {
+    Object.keys(event).forEach((key) => set.add(key));
+  });
+  const keys = Array.from(set);
+  const records = events.map((event) =>
+    keys
+      .map((key) => {
+        let value = event[key];
+        if (typeof value === "object") {
+          value = JSON.stringify(value);
+        }
+        return `"${String(value ?? "").replace(/"/g, '""')}"`;
+      })
+      .join(",")
+  );
+  return [keys.join(","), ...records].join("\n");
+}
